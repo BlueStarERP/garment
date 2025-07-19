@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Payroll Management - HR Pro</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3B82F6',
+                        secondary: '#64748B',
+                        success: '#10B981',
+                        warning: '#F59E0B',
+                        danger: '#EF4444',
+                        dark: '#1E293B',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-50">
+    <div class="flex h-screen overflow-hidden">
+        <!-- Sidebar -->
+        <div class="hidden md:flex md:flex-shrink-0">
+            <div class="flex flex-col w-64 bg-white border-r border-gray-200">
+                <div class="flex items-center justify-center h-16 px-4 border-b border-gray-200">
+                    <div class="flex items-center">
+                        <i class="fas fa-user-tie text-primary text-2xl mr-2"></i>
+                        <span class="text-xl font-bold text-gray-800">HR Pro</span>
+                    </div>
+                </div>
+                <div class="flex flex-col flex-grow px-4 py-4 overflow-y-auto">
+                    <nav class="flex-1 space-y-2">
+                        <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
+                            <i class="fas fa-tachometer-alt mr-3"></i>
+                            Dashboard
+                        </a>
+                        <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
+                            <i class="fas fa-users mr-3"></i>
+                            Employees
+                        </a>
+                        <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
+                            <i class="fas fa-calendar-alt mr-3"></i>
+                            Attendance
+                        </a>
+                        <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-white bg-primary">
+                            <i class="fas fa-file-invoice-dollar mr-3"></i>
+                            Payroll
+                        </a>
+                        <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
+                            <i class="fas fa-chart-line mr-3"></i>
+                            Performance
+                        </a>
+                        <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
+                            <i class="fas fa-clipboard-list mr-3"></i>
+                            Recruitment
+                        </a>
+                        <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
+                            <i class="fas fa-building mr-3"></i>
+                            Departments
+                        </a>
+                        <a href="#" class="flex items-center px-2 py-3 text-sm font-medium rounded-md text-gray-600 hover:bg-gray-100">
+                            <i class="fas fa-cog mr-3"></i>
+                            Settings
+                        </a>
+                    </nav>
+                </div>
+                <div class="p-4 border-t border-gray-200">
+                    <div class="flex items-center">
+                        <div class="flex-shrink-0">
+                            <img class="h-10 w-10 rounded-full" src="https://placehold.co/100" alt="Admin profile picture">
+                        </div>
+                        <div class="ml-3">
+                            <p class="text-sm font-medium text-gray-700">Admin User</p>
+                            <p class="text-sm text-gray-500">admin@company.com</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="flex flex-col flex-1 overflow-hidden">
+            <!-- Top Navigation -->
+            <div class="flex items-center justify-between h-16 px-4 bg-white border-b border-gray-200">
+                <div class="flex items-center md:hidden">
+                    <button type="button" class="inline-flex items-center justify-center p-2 rounded-md text-gray-500 hover:text-gray-900 hover:bg-gray-100 focus:outline-none">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+                <div class="flex-1 px-4">
+                    <h1 class="text-lg font-medium text-gray-900">Payroll Management</h1>
+                </div>
+                <div class="flex items-center">
+                    <button type="button" class="p-1 rounded-full text-gray-400 hover:text-gray-500 focus:outline-none">
+                        <i class="fas fa-bell"></i>
+                        <span class="sr-only">Notifications</span>
+                    </button>
+                    <div class="ml-4 relative">
+                        <div class="flex items-center space-x-3">
+                            <span class="text-sm font-medium text-gray-700 hidden md:inline">Admin</span>
+                            <img class="h-8 w-8 rounded-full" src="https://placehold.co/100" alt="Admin profile picture">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 md:p-6">
+                <!-- Page Header -->
+                <div class="flex flex-col md:flex-row justify-between items-start md:items-center mb-6 gap-4">
+                    <div>
+                        <h2 class="text-2xl font-bold text-gray-800">Payroll Overview</h2>
+                        <p class="text-gray-600">Manage and process employee payroll</p>
+                    </div>
+                    <div class="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+                        <div class="relative w-full md:w-64">
+                            <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                                <i class="fas fa-search text-gray-400"></i>
+                            </div>
+                            <input type="text" id="search-payroll" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5" placeholder="Search payroll...">
+                        </div>
+                        <button data-modal-target="generate-payroll-modal" data-modal-toggle="generate-payroll-modal" class="text-white bg-primary hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center">
+                            <i class="fas fa-plus mr-2"></i> Generate Payroll
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filters Card -->
+                <div class="bg-white rounded-lg shadow p-4 mb-6">
+                    <div class="flex flex-wrap items-center gap-4">
+                        <div class="w-full sm:w-auto">
+                            <label for="month-filter" class="block text-sm font-medium text-gray-700 mb-1">Month</label>
+                            <select id="month-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                <option value="">All Months</option>
+                                <option value="01">January</option>
+                                <option value="02">February</option>
+                                <option value="03">March</option>
+                                <option value="04">April</option>
+                                <option value="05">May</option>
+                                <option value="06">June</option>
+                                <option value="07">July</option>
+                                <option value="08">August</option>
+                                <option value="09">September</option>
+                                <option value="10">October</option>
+                                <option value="11">November</option>
+                                <option value="12">December</option>
+                            </select>
+                        </div>
+                        <div class="w-full sm:w-auto">
+                            <label for="year-filter" class="block text-sm font-medium text-gray-700 mb-1">Year</label>
+                            <select id="year-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                <option value="">All Years</option>
+                                <option value="2023">2023</option>
+                                <option value="2024">2024</option>
+                                <option value="2025">2025</option>
+                            </select>
+                        </div>
+                        <div class="w-full sm:w-auto">
+                            <label for="payroll-status-filter" class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                            <select id="payroll-status-filter" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5">
+                                <option value="">All Statuses</option>
+                                <option value="processed">Processed</option>
+                                <option value="pending">Pending</option>
+                                <option value="paid">Paid</option>
+                                <option value="failed">Failed</option>
+                            </select>
+                        </div>
+                        <div class="w-full sm:w-auto flex items-end">
+                            <button class="text-white bg-primary hover:bg-blue-700 px-4 py-2.5 rounded-lg text-sm font-medium inline-flex items-center">
+                                <i class="fas fa-filter mr-2"></i> Apply Filters
+                            </button>
+                        </div>
+                        <div class="w-full sm:w-auto flex items-end ml-auto">
+                            <button class="text-gray-600 hover:text-gray-900 text-sm font-medium inline-flex items-center">
+                                <i class="fas fa-sync-alt mr-2"></i> Reset Filters
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Payroll Summary Cards -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+                    <div class="bg-white rounded-lg shadow p-5 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Total Payroll Amount</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">$150,000</p>
+                        </div>
+                        <i class="fas fa-dollar-sign text-primary text-3xl"></i>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-5 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Employees Paid</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">200</p>
+                        </div>
+                        <i class="fas fa-users text-success text-3xl"></i>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-5 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Pending Payments</p>
+                            <p class="text-2xl font-bold text-gray-900 mt-1">10</p>
+                        </div>
+                        <i class="fas fa-hourglass-half text-warning text-3xl"></i>
+                    </div>
+                    <div class="bg-white rounded-lg shadow p-5 flex items-center justify-between">
+                        <div>
+                            <p class="text-sm text-gray-500">Last Processed Date</p>
+                            <p class="text-xl font-bold text-gray-900 mt-1">2024-03-31</p>
+                        </div>
+                        <i class="fas fa-calendar-check text-secondary text-3xl"></i>
+                    </div>
+                </div>
+
+                <!-- Payroll Table Card -->
+                <div class="bg-white rounded-lg shadow overflow-hidden">
+                    <div class="px-6 py-4 border-b border-gray-200 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+                        <div>
+                            <h3 class="text-lg font-medium text-gray-900">Payroll Records</h3>
+                            <p class="text-sm text-gray-500">Showing 1-10 of 50 payroll records</p>
+                        </div>
+                        <div class="flex items-center gap-3">
+                            <button class="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-download"></i>
+                                <span class="sr-only">Export</span>
+                            </button>
+                            <button class="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100">
+                                <i class="fas fa-print"></i>
+                                <span class="sr-only">Print</span>
+                            </button>
+                            <div class="relative">
+                                <button class="text-gray-600 hover:text-gray-900 p-2 rounded-lg hover:bg-gray-100">
+                                    <i class="fas fa-ellipsis-v"></i>
+                                    <span class="sr-only">More options</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="overflow-x-auto">
+                        <table class="min-w-full divide-y divide-gray-200">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                                        <div class="flex items-center">
+                                            Payroll ID
+                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                                        <div class="flex items-center">
+                                            Pay Period
+                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 hidden sm:table-cell">
+                                        <div class="flex items-center">
+                                            Total Amount
+                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 hidden md:table-cell">
+                                        <div class="flex items-center">
+                                            Employees
+                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100">
+                                        <div class="flex items-center">
+                                            Status
+                                            <i class="fas fa-sort ml-1 text-gray-400"></i>
+                                        </div>
+                                    </th>
+                                    <th scope="col" class="px-6 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                                        Actions
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody class="bg-white divide-y divide-gray-200">
+                                <!-- Payroll Record 1 -->
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        PAY-202403-001
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        March 2024
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell text-sm text-gray-900">
+                                        $75,000.00
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell text-sm text-gray-900">
+                                        100
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Paid
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <div class="flex justify-end space-x-3">
+                                            <button class="text-primary hover:text-blue-700" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-secondary hover:text-gray-700" title="Download Report">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="text-danger hover:text-red-700" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Payroll Record 2 -->
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        PAY-202402-001
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        February 2024
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell text-sm text-gray-900">
+                                        $72,500.00
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell text-sm text-gray-900">
+                                        98
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-green-100 text-green-800">
+                                            Paid
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <div class="flex justify-end space-x-3">
+                                            <button class="text-primary hover:text-blue-700" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-secondary hover:text-gray-700" title="Download Report">
+                                                <i class="fas fa-download"></i>
+                                            </button>
+                                            <button class="text-danger hover:text-red-700" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+
+                                <!-- Payroll Record 3 -->
+                                <tr class="hover:bg-gray-50 transition-colors">
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">
+                                        PAY-202404-001
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                                        April 2024
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden sm:table-cell text-sm text-gray-900">
+                                        $78,000.00
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap hidden md:table-cell text-sm text-gray-900">
+                                        102
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap">
+                                        <span class="px-2 inline-flex text-xs leading-5 font-semibold rounded-full bg-yellow-100 text-yellow-800">
+                                            Pending
+                                        </span>
+                                    </td>
+                                    <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
+                                        <div class="flex justify-end space-x-3">
+                                            <button class="text-primary hover:text-blue-700" title="View Details">
+                                                <i class="fas fa-eye"></i>
+                                            </button>
+                                            <button class="text-success hover:text-green-700" title="Process Payment">
+                                                <i class="fas fa-money-bill-wave"></i>
+                                            </button>
+                                            <button class="text-danger hover:text-red-700" title="Delete">
+                                                <i class="fas fa-trash-alt"></i>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
+                        <div class="flex-1 flex justify-between sm:hidden">
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Previous
+                            </button>
+                            <button class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Next
+                            </button>
+                        </div>
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">1</span> to <span class="font-medium">3</span> of <span class="font-medium">50</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                    <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button aria-current="page" class="z-10 bg-primary border-primary text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        1
+                                    </button>
+                                    <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        2
+                                    </button>
+                                    <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        3
+                                    </button>
+                                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                        ...
+                                    </span>
+                                    <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        5
+                                    </button>
+                                    <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+
+    <!-- Generate Payroll Modal -->
+    <div id="generate-payroll-modal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
+        <div class="relative w-full max-w-2xl max-h-full">
+            <!-- Modal content -->
+            <div class="relative bg-white rounded-lg shadow">
+                <!-- Modal header -->
+                <div class="flex items-center justify-between p-4 md:p-5 border-b rounded-t">
+                    <h3 class="text-xl font-semibold text-gray-900">
+                        Generate New Payroll
+                    </h3>
+                    <button type="button" class="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ms-auto inline-flex justify-center items-center" data-modal-hide="generate-payroll-modal">
+                        <i class="fas fa-times"></i>
+                        <span class="sr-only">Close modal</span>
+                    </button>
+                </div>
+                <!-- Modal body -->
+                <div class="p-4 md:p-5 space-y-4">
+                    <form>
+                        <div class="grid gap-4 mb-4 grid-cols-2">
+                            <div>
+                                <label for="payroll-period-month" class="block mb-2 text-sm font-medium text-gray-900">Payroll Month *</label>
+                                <select id="payroll-period-month" name="payroll-period-month" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" required>
+                                    <option value="" selected disabled>Select month</option>
+                                    <option value="01">January</option>
+                                    <option value="02">February</option>
+                                    <option value="03">March</option>
+                                    <option value="04">April</option>
+                                    <option value="05">May</option>
+                                    <option value="06">June</option>
+                                    <option value="07">July</option>
+                                    <option value="08">August</option>
+                                    <option value="09">September</option>
+                                    <option value="10">October</option>
+                                    <option value="11">November</option>
+                                    <option value="12">December</option>
+                                </select>
+                            </div>
+                            <div>
+                                <label for="payroll-period-year" class="block mb-2 text-sm font-medium text-gray-900">Payroll Year *</label>
+                                <select id="payroll-period-year" name="payroll-period-year" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5" required>
+                                    <option value="" selected disabled>Select year</option>
+                                    <option value="2023">2023</option>
+                                    <option value="2024">2024</option>
+                                    <option value="2025">2025</option>
+                                </select>
+                            </div>
+                            <div class="col-span-2">
+                                <label for="payroll-notes" class="block mb-2 text-sm font-medium text-gray-900">Notes (Optional)</label>
+                                <textarea id="payroll-notes" name="payroll-notes" rows="4" class="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500" placeholder="Add any relevant notes for this payroll run..."></textarea>
+                            </div>
+                        </div>
+                        <div class="flex justify-end pt-4 border-t border-gray-200">
+                            <button type="button" class="mr-3 text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-200 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10" data-modal-hide="generate-payroll-modal">
+                                Cancel
+                            </button>
+                            <button type="submit" class="text-white bg-primary hover:bg-blue-700 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
+                                Generate Payroll
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile menu toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('.md\\:hidden button');
+            const sidebar = document.querySelector('.hidden.md\\:flex');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                sidebar.classList.toggle('hidden');
+            });
+
+            // Initialize Flowbite components for the new modal
+            const generatePayrollModal = new Flowbite.Modal(document.getElementById('generate-payroll-modal'));
+            
+            // Add any specific JavaScript for payroll functionality here
+            // e.g., handling payroll generation, viewing details, etc.
+        });
+    </script>
+</body>
+</html>
