@@ -3,14 +3,22 @@ from django.db import models
 # Create your models here.
 class department(models.Model):
     department_name = models.CharField(max_length=100)
+    def __str__(self):
+        return self.department_name
 
 
 class region(models.Model):
     region_name = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.region_name
 
 class township(models.Model):
     region = models.ForeignKey(region, on_delete=models.CASCADE)
     township = models.CharField(max_length=100)
+    
+    def __str__(self):
+        return self.township
 
 
 

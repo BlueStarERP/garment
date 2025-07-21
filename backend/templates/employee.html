@@ -1,3 +1,4 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,9 +6,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Management - HR Pro</title>
     <script src="https://cdn.tailwindcss.com"></script>
+    <script src="{% static 'jquery.min.js' %}"></script>
+
+    <!-- flowbite -->
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
+    
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
     <script>
         tailwind.config = {
             theme: {
@@ -240,6 +247,7 @@
                             </thead>
                             <tbody class="bg-white divide-y divide-gray-200">
                                 <!-- Employee 1 -->
+                                  {% for i in page_obj %}
                                 <tr class="hover:bg-gray-50 transition-colors">
                                     <td class="px-6 py-4 whitespace-nowrap">
                                         <div class="flex items-center">
@@ -247,7 +255,7 @@
                                                 <img class="h-10 w-10 rounded-full" src="https://randomuser.me/api/portraits/men/32.jpg" alt="Employee profile">
                                             </div>
                                             <div class="ml-4">
-                                                <div class="text-sm font-medium text-gray-900">Aung Ko Ko</div>
+                                                <div class="text-sm font-medium text-gray-900">Aung Ko Ko1</div>
                                                 <div class="text-sm text-gray-500">aungkoko@company.com</div>
                                             </div>
                                         </div>
@@ -278,6 +286,7 @@
                                         </div>
                                     </td>
                                 </tr>
+                                {% endfor %}
 
                                 <!-- Employee 2 -->
                                 <tr class="hover:bg-gray-50 transition-colors">
@@ -405,7 +414,50 @@
                     <!-- Pagination -->
                     <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
                         <div class="flex-1 flex justify-between sm:hidden">
-                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-blue-700 hover:bg-gray-50">
+                                Previous
+                            </button>
+                            <button class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
+                                Next
+                            </button>
+                        </div>
+                        <div class="hidden sm:flex-1 sm:flex sm:items-center sm:justify-between">
+                            <div>
+                                <p class="text-sm text-gray-700">
+                                    Showing <span class="font-medium">{{ page_obj.number }}</span>  <span class="font-medium"></span> of <span class="font-medium">{{ page_obj.paginator.num_pages }}</span> results
+                                </p>
+                            </div>
+                            <div>
+                                <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+                                    <button class="relative inline-flex items-center px-2 py-2 rounded-l-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <i class="fas fa-chevron-left"></i>
+                                    </button>
+                                    <button aria-current="page" class="z-10 bg-primary border-primary text-white relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        1
+                                    </button>
+                                    <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        2
+                                    </button>
+                                    <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        3
+                                    </button>
+                                    <span class="relative inline-flex items-center px-4 py-2 border border-gray-300 bg-white text-sm font-medium text-gray-700">
+                                        ...
+                                    </span>
+                                    <button class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium">
+                                        8
+                                    </button>
+                                    <button class="relative inline-flex items-center px-2 py-2 rounded-r-md border border-gray-300 bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                                        <i class="fas fa-chevron-right"></i>
+                                    </button>
+                                </nav>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- <div class="bg-gray-50 px-6 py-3 flex items-center justify-between border-t border-gray-200">
+                        <div class="flex-1 flex justify-between sm:hidden">
+                            <button class="relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-blue-700 hover:bg-gray-50">
                                 Previous
                             </button>
                             <button class="ml-3 relative inline-flex items-center px-4 py-2 border border-gray-300 text-sm font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50">
@@ -444,8 +496,14 @@
                                 </nav>
                             </div>
                         </div>
-                    </div>
+                    </div> -->
+
+                     
+
                 </div>
+
+         
+
             </main>
         </div>
     </div>
@@ -590,6 +648,8 @@
         </div>
     </div>
 
+
+
     <script>
         // Mobile menu toggle functionality
         document.addEventListener('DOMContentLoaded', function() {
@@ -607,6 +667,25 @@
             // Search functionality would go here
             // Filter functionality would go here
         });
+    </script>
+    <script>
+        $(document).ready(function(){
+            LoadEmployee();
+
+
+            function LoadEmployee(){
+                $.ajax({
+                    url: '/employeeview/',
+                    type: 'GET',
+                    success: function (response) {
+                        console.log(response.message)
+                    },
+                    error: function () {
+                        alert('Error fetching ');
+                    }
+                });//ajax
+            };//loadEmployee
+});//ready function
     </script>
 </body>
 </html>
