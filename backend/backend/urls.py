@@ -22,8 +22,15 @@ from django.conf import settings
 from django.conf.urls.static import static
 
 urlpatterns = [
+    #api
+    path('api/departments/', departmentList.as_view(), name='departmentList'),
+    
+    
     path('admin/', admin.site.urls),
     path('', landingpage, name='landingpage'),
+    path('hrDashboard/', hrDashboard.as_view(), name='hrDashboard'),
+    path('adddepartment/', adddepartment.as_view(), name='adddepartment'),
+    
 ]
 
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
