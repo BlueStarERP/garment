@@ -1,0 +1,236 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreadTrac ERP - Production Reports</title>
+    <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    
+    
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3f51b5',
+                        'primary-dark': '#303f9f',
+                        secondary: '#607d8b',
+                        accent: '#ff5252',
+                        light: '#f5f5f5',
+                        dark: '#263238',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .status-active { color: #4CAF50; }
+        .status-completed { color: #2196F3; }
+        .status-delayed { color: #FF9800; }
+    </style>
+</head>
+<body class="font-poppins bg-gray-50">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center text-dark font-semibold text-xl">
+                        <i class="fas fa-project-diagram text-primary mr-2"></i>
+                        ThreadTrac ERP
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <svg class="w-6 h-6 text-gray-800 dark:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+    <path d="M1 5h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 1 0 0-2H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2Zm18 4h-1.424a3.228 3.228 0 0 0-6.152 0H1a1 1 0 1 0 0 2h10.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Zm0 6H8.576a3.228 3.228 0 0 0-6.152 0H1a1 1 0 0 0 0 2h1.424a3.228 3.228 0 0 0 6.152 0H19a1 1 0 0 0 0-2Z"/>
+</svg>
+                        Dashboard
+                    </a>
+                    <a href="#" class="bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-chart-line mr-2"></i> Reports
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-industry mr-2"></i> Production
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-boxes mr-2"></i> Inventory
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-users mr-2"></i> Employees
+                    </a>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="flex items-center ml-4 md:ml-6">
+                        <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=John+Doe&background=3f51b5&color=fff" alt="User profile">
+                        <span class="ml-2 text-sm font-medium text-gray-700 hidden md:block">John Doe</span>
+                    </div>
+                    <button id="mobile-menu-button" class="md:hidden text-gray-500 hover:text-gray-900 focus:outline-none ml-4">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu (hidden by default) -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="text-gray-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                </a>
+                <a href="#" class="bg-primary bg-opacity-10 text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-chart-line mr-2"></i> Reports
+                </a>
+                <a href="#" class="text-gray-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-industry mr-2"></i> Production
+                </a>
+                <a href="#" class="text-gray-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-boxes mr-2"></i> Inventory
+                </a>
+                <a href="#" class="text-gray-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-users mr-2"></i> Employees
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <div class="bg-white rounded-lg shadow-md overflow-hidden">
+            <!-- Report Header -->
+            <div class="px-6 py-5 border-b border-gray-200">
+                <div class="flex flex-col">
+                    <h1 class="text-xl font-semibold text-gray-900">Production Efficiency Report</h1>
+                    
+                    <div class="mt-4 flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+                        <div class="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-4">
+                            <label class="text-sm text-gray-600">Date Range:</label>
+                            <div class="flex items-center gap-2">
+                                <input type="date" id="start-date" class="border border-gray-300 rounded-md px-3 py-1 text-sm w-full sm:w-auto">
+                                <span class="text-sm text-gray-500">to</span>
+                                <input type="date" id="end-date" class="border border-gray-300 rounded-md px-3 py-1 text-sm w-full sm:w-auto">
+                            </div>
+                        </div>
+                        <button class="bg-blue-500 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm font-medium transition-colors w-full sm:w-auto">
+                            Export to Excel
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Report Table -->
+            <div class="overflow-x-auto">
+                <table class="min-w-full divide-y divide-gray-200">
+                    <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Line No.</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Style</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Order Qty</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Completed</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Defects</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Efficiency</th>
+                            <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                        </tr>
+                    </thead>
+                    <tbody class="bg-white divide-y divide-gray-200">
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">L01</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">TSH-2023</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1200</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">850</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">12</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">78%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium status-active">In Progress</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">L02</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">JNS-456</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2000</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2000</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">8</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">95%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium status-completed">Completed</td>
+                        </tr>
+                        <tr>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">L03</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">SKT-789</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1500</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1200</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">25</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">65%</td>
+                            <td class="px-6 py-4 whitespace-nowrap text-sm font-medium status-delayed">Delayed</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Report Footer -->
+            <div class="px-6 py-4 border-t border-gray-200">
+                <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                    <div class="flex flex-col sm:flex-row sm:space-x-8 space-y-4 sm:space-y-0 mb-4 sm:mb-0">
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-500">Total Orders:</span>
+                            <span class="text-sm font-medium text-gray-900">4700</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-500">Completed:</span>
+                            <span class="text-sm font-medium text-gray-900">4050</span>
+                        </div>
+                        <div class="flex flex-col">
+                            <span class="text-xs text-gray-500">Overall Efficiency:</span>
+                            <span class="text-sm font-medium text-gray-900">82%</span>
+                        </div>
+                    </div>
+                    <div class="text-xs text-gray-500">
+                        &copy; 2023 ThreadTrac ERP. All rights reserved.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="{% static 'tailwindcss.js' %}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Set default dates
+            const today = new Date();
+            const lastWeek = new Date();
+            lastWeek.setDate(today.getDate() - 7);
+            
+            document.getElementById('start-date').valueAsDate = lastWeek;
+            document.getElementById('end-date').valueAsDate = today;
+            
+            // Add export functionality
+            document.querySelector('.bg-primary').addEventListener('click', function() {
+                alert('Exporting report data...');
+                // Actual export functionality would go here
+            });
+            
+            // Mobile menu toggle
+            const mobileMenuButton = document.getElementById('mobile-menu-button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+                
+                // Change icon based on menu state
+                const icon = mobileMenuButton.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                } else {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                }
+            });
+        });
+    </script>
+</body>
+</html>

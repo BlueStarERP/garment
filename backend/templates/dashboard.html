@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ThreadTrac ERP - Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#3f51b5',
+                        secondary: '#607d8b',
+                        accent: '#ff5252',
+                        light: '#f5f5f5',
+                        dark: '#263238',
+                    },
+                    fontFamily: {
+                        poppins: ['Poppins', 'sans-serif'],
+                    },
+                }
+            }
+        }
+    </script>
+    <style>
+        .status-active { color: #4CAF50; }
+        .status-completed { color: #2196F3; }
+        .status-delayed { color: #FF9800; }
+        .chart-container {
+            position: relative;
+            height: 100%;
+            width: 100%;
+        }
+    </style>
+</head>
+<body class="font-poppins bg-gray-50">
+    <!-- Navigation Bar -->
+    <nav class="bg-white shadow-sm sticky top-0 z-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between h-16">
+                <div class="flex items-center">
+                    <a href="#" class="flex items-center text-dark font-semibold text-xl">
+                        <i class="fas fa-project-diagram text-primary mr-2"></i>
+                        ThreadTrac ERP
+                    </a>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#" class="bg-primary bg-opacity-10 text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-chart-line mr-2"></i> Reports
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-industry mr-2"></i> Production
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-boxes mr-2"></i> Inventory
+                    </a>
+                    <a href="#" class="text-gray-600 hover:text-primary px-3 py-2 rounded-md text-sm font-medium flex items-center">
+                        <i class="fas fa-users mr-2"></i> Employees
+                    </a>
+                </div>
+                
+                <div class="flex items-center">
+                    <div class="flex items-center ml-4 md:ml-6">
+                        <img class="h-8 w-8 rounded-full" src="https://ui-avatars.com/api/?name=John+Doe&background=3f51b5&color=fff" alt="User profile">
+                        <span class="ml-2 text-sm font-medium text-gray-700 hidden md:block">John Doe</span>
+                    </div>
+                    <button class="md:hidden text-gray-500 hover:text-gray-900 focus:outline-none ml-4">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile menu -->
+        <div class="md:hidden hidden" id="mobile-menu">
+            <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3">
+                <a href="#" class="bg-primary bg-opacity-10 text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-tachometer-alt mr-2"></i> Dashboard
+                </a>
+                <a href="#" class="text-gray-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-chart-line mr-2"></i> Reports
+                </a>
+                <a href="#" class="text-gray-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-industry mr-2"></i> Production
+                </a>
+                <a href="#" class="text-gray-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-boxes mr-2"></i> Inventory
+                </a>
+                <a href="#" class="text-gray-600 hover:text-primary block px-3 py-2 rounded-md text-base font-medium flex items-center">
+                    <i class="fas fa-users mr-2"></i> Employees
+                </a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
+        <!-- Dashboard Header -->
+        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-center mb-6">
+            <div>
+                <h1 class="text-2xl font-semibold text-gray-900">Production Dashboard</h1>
+                <p class="text-sm text-gray-500">Overview of your production performance</p>
+            </div>
+            <div class="mt-4 sm:mt-0">
+                <div class="flex items-center space-x-2">
+                    <label class="text-sm text-gray-600">Date Range:</label>
+                    <select class="border border-gray-300 rounded-md px-3 py-1 text-sm bg-white">
+                        <option>Today</option>
+                        <option selected>This Week</option>
+                        <option>This Month</option>
+                        <option>Custom Range</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Stats Cards -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-6">
+            <!-- Card 1 -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Total Production</p>
+                        <p class="text-2xl font-semibold text-gray-900">4,850</p>
+                    </div>
+                    <div class="p-3 rounded-full bg-primary bg-opacity-10 text-primary">
+                        <i class="fas fa-box-open text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-green-600 text-sm font-medium">
+                        <i class="fas fa-arrow-up"></i> 12.5%
+                    </span>
+                    <span class="text-gray-500 text-sm ml-2">vs last week</span>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Overall Efficiency</p>
+                        <p class="text-2xl font-semibold text-gray-900">82%</p>
+                    </div>
+                    <div class="p-3 rounded-full bg-green-100 text-green-600">
+                        <i class="fas fa-chart-line text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-green-600 text-sm font-medium">
+                        <i class="fas fa-arrow-up"></i> 3.2%
+                    </span>
+                    <span class="text-gray-500 text-sm ml-2">vs last week</span>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Defect Rate</p>
+                        <p class="text-2xl font-semibold text-gray-900">1.8%</p>
+                    </div>
+                    <div class="p-3 rounded-full bg-red-100 text-red-600">
+                        <i class="fas fa-exclamation-triangle text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-red-600 text-sm font-medium">
+                        <i class="fas fa-arrow-up"></i> 0.4%
+                    </span>
+                    <span class="text-gray-500 text-sm ml-2">vs last week</span>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <p class="text-sm font-medium text-gray-500">Active Lines</p>
+                        <p class="text-2xl font-semibold text-gray-900">5/8</p>
+                    </div>
+                    <div class="p-3 rounded-full bg-blue-100 text-blue-600">
+                        <i class="fas fa-industry text-xl"></i>
+                    </div>
+                </div>
+                <div class="mt-4">
+                    <span class="text-green-600 text-sm font-medium">
+                        <i class="fas fa-arrow-up"></i> 2
+                    </span>
+                    <span class="text-gray-500 text-sm ml-2">vs last week</span>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Charts Row 1 -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+            <!-- Production Trend Chart -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <div class="flex justify-between items-center mb-4">
+                    <h2 class="text-lg font-medium text-gray-900">Production Trend</h2>
+                    <div class="flex space-x-2">
+                        <button class="text-xs px-2 py-1 bg-gray-100 rounded">Week</button>
+                        <button class="text-xs px-2 py-1 bg-primary text-white rounded">Month</button>
+                        <button class="text-xs px-2 py-1 bg-gray-100 rounded">Year</button>
+                    </div>
+                </div>
+                <div class="chart-container">
+                    <canvas id="productionChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Efficiency by Line Chart -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Efficiency by Line</h2>
+                <div class="chart-container">
+                    <canvas id="efficiencyChart"></canvas>
+                </div>
+            </div>
+            
+            <!-- Order Status Chart -->
+            <div class="bg-white rounded-lg shadow p-6">
+                <h2 class="text-lg font-medium text-gray-900 mb-4">Order Status</h2>
+                <div class="chart-container">
+                    <canvas id="orderStatusChart"></canvas>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Recent Activity & Top Styles -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
+            <!-- Recent Activity -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="px-6 py-5 border-b border-gray-200">
+                    <h2 class="text-lg font-medium text-gray-900">Recent Activity</h2>
+                </div>
+                <div class="divide-y divide-gray-200">
+                    <div class="px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-green-100 rounded-full p-2 text-green-600">
+                                <i class="fas fa-check-circle"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-900">Order #4567 completed</p>
+                                <p class="text-sm text-gray-500">Line L02 - 15 minutes ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-blue-100 rounded-full p-2 text-blue-600">
+                                <i class="fas fa-info-circle"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-900">New defect reported</p>
+                                <p class="text-sm text-gray-500">Style TSH-2023 - 1 hour ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-yellow-100 rounded-full p-2 text-yellow-600">
+                                <i class="fas fa-exclamation-triangle"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-900">Delay in Line L03</p>
+                                <p class="text-sm text-gray-500">Machine maintenance - 2 hours ago</p>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="px-6 py-4">
+                        <div class="flex items-center">
+                            <div class="flex-shrink-0 bg-purple-100 rounded-full p-2 text-purple-600">
+                                <i class="fas fa-truck"></i>
+                            </div>
+                            <div class="ml-4">
+                                <p class="text-sm font-medium text-gray-900">New fabric received</p>
+                                <p class="text-sm text-gray-500">Inventory updated - 3 hours ago</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="px-6 py-4 border-t border-gray-200 text-center">
+                    <a href="#" class="text-sm font-medium text-primary hover:text-primary-dark">View all activity</a>
+                </div>
+            </div>
+            
+            <!-- Top Styles -->
+            <div class="bg-white rounded-lg shadow overflow-hidden">
+                <div class="px-6 py-5 border-b border-gray-200">
+                    <div class="flex justify-between items-center">
+                        <h2 class="text-lg font-medium text-gray-900">Top Styles This Month</h2>
+                        <button class="text-sm text-primary hover:text-primary-dark">View All</button>
+                    </div>
+                </div>
+                <div class="overflow-x-auto">
+                    <table class="min-w-full divide-y divide-gray-200">
+                        <thead class="bg-gray-50">
+                            <tr>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Style</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Quantity</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Efficiency</th>
+                                <th scope="col" class="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody class="bg-white divide-y divide-gray-200">
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">TSH-2023</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">2,450</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">88%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium status-active">Active</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">JNS-456</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1,850</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">92%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium status-completed">Completed</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">SKT-789</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">1,200</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">76%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium status-active">Active</td>
+                            </tr>
+                            <tr>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900">DRS-101</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">950</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-900">81%</td>
+                                <td class="px-6 py-4 whitespace-nowrap text-sm font-medium status-delayed">Delayed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <div class="text-center text-xs text-gray-500 mt-8">
+            &copy; 2023 ThreadTrac ERP. All rights reserved.
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Mobile menu toggle
+            const mobileMenuButton = document.querySelector('.md\\:hidden button');
+            const mobileMenu = document.getElementById('mobile-menu');
+            
+            mobileMenuButton.addEventListener('click', function() {
+                mobileMenu.classList.toggle('hidden');
+            });
+            
+            // Production Trend Chart
+            const productionCtx = document.getElementById('productionChart').getContext('2d');
+            const productionChart = new Chart(productionCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                    datasets: [{
+                        label: 'Production Units',
+                        data: [3200, 2900, 3500, 4200, 4800, 5100, 5500],
+                        backgroundColor: 'rgba(63, 81, 181, 0.1)',
+                        borderColor: '#3f51b5',
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: false,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Efficiency by Line Chart
+            const efficiencyCtx = document.getElementById('efficiencyChart').getContext('2d');
+            const efficiencyChart = new Chart(efficiencyCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['L01', 'L02', 'L03', 'L04', 'L05'],
+                    datasets: [{
+                        label: 'Efficiency %',
+                        data: [88, 92, 76, 85, 81],
+                        backgroundColor: [
+                            'rgba(63, 81, 181, 0.7)',
+                            'rgba(63, 81, 181, 0.7)',
+                            'rgba(63, 81, 181, 0.7)',
+                            'rgba(63, 81, 181, 0.7)',
+                            'rgba(63, 81, 181, 0.7)'
+                        ],
+                        borderColor: [
+                            '#3f51b5',
+                            '#3f51b5',
+                            '#3f51b5',
+                            '#3f51b5',
+                            '#3f51b5'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            display: false
+                        }
+                    },
+                    scales: {
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            grid: {
+                                drawBorder: false
+                            }
+                        },
+                        x: {
+                            grid: {
+                                display: false
+                            }
+                        }
+                    }
+                }
+            });
+            
+            // Order Status Chart
+            const orderStatusCtx = document.getElementById('orderStatusChart').getContext('2d');
+            const orderStatusChart = new Chart(orderStatusCtx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'In Progress', 'Delayed'],
+                    datasets: [{
+                        data: [45, 35, 20],
+                        backgroundColor: [
+                            '#2196F3', // Blue for Completed
+                            '#4CAF50', // Green for In Progress
+                            '#FF9800'  // Orange for Delayed
+                        ],
+                        borderWidth: 0
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right'
+                        }
+                    },
+                    cutout: '70%'
+                }
+            });
+        });
+    </script>
+</body>
+</html>
